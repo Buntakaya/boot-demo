@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common :: head('検索')}">
+    <meta charset="UTF-8">
+    <title>検索</title>
+</head>
+<body>
+<header th:replace="~{common :: header('検索')}"></header>
+<main>
+    <form th:action="@{search}" method="get" th:object="${searchFrom}">
+        <table>
+            <tr>
+                <th>ID</th>
+                <!--th:fieldは必要に応じて、id属性、name属性,value属性を自動生成します-->
+                <td><input type="text" th:field="*{id}"></td>
+            </tr>
+            <tr>
+                <th>名前</th>
+                <td><input type="text" th:field="*{name}"></td>
+            </tr>
+        </table>
+        <button>検索</button>
+    </form>
+    <!--ユーティリティーを使用して、Listsのsizeや空きかどうかを調べます-->
+    <p>検索結果は<span th:text="${#lists.size(searchList)}"></span>件です</p>
+    <!--th:unlessは「～じゃなかったら」-->
+    <table th:unless="${#lists.isEmpty(searchList)}">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>氏名</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--th:eachは拡張for文です-->
+        <tr th:each="item : ${searchList}" th:object="${item}">
+            <td th:text="*{id}">
+            <td th:text="*{name}">
+        </tr>
+        </tbody>
+    </table>
+</main>
+<footer th:replace="~{common :: footer}"></footer>
+</body>
+</html>

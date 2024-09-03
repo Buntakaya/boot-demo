@@ -7,7 +7,9 @@
 <body>
 <header th:replace="~{common :: header('トップ')}"></header>
 <main>
-
+    <ul>
+        <li><a th:href="@{search}">検索</a></li>
+    </ul>
 </main>
 <footer th:replace="~{common :: footer}"></footer>
 </body>

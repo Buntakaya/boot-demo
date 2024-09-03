@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespaceはMapperインターフェースの完全クラス名を指定します。-->
+<!--このxmlファイルは、resourcesの中にMapperインターフェースと同じ配置で置きます-->
+<mapper namespace="com.example.BootSample.mapper.StudentsMapper">
+    <!--検索-->
+    <select id="selectByConditions"
+            resultType="com.example.BootSample.entity.StudentsEntity">
+        SELECT ID, NAME, PREFECTURE, GENDER
+        FROM STUDENTS
+        <!--WHERE句の指定　idやnameに値がない場合は全件検索になる-->
+        <where>
+            <!--完全一致-->
+            <if test="id != null and id !=''">
+                AND ID = #{id}
+            </if>
+            <!--部分一致-->
+            <if test="name != null and name !=''">
+                AND NAME LIKE CONCAT('%',#{name},'%')
+            </if>
+        </where>
+    </select>
+</mapper>
