@@ -18,4 +18,11 @@ public interface StudentsMapper {
      * @return 検索結果のList
      */
     List<StudentsEntity> selectByConditions(SearchFrom searchFrom);
+
+    /**
+     * Studentsテーブルにデータを登録します
+     *
+     * @param studentsEntity 登録情報
+     */
+    void insert(StudentsEntity studentsEntity);
 }

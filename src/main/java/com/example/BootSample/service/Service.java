@@ -26,4 +26,13 @@ public class Service {
     public List<StudentsEntity> findStudent(SearchFrom searchFrom) {
         return studentsMapper.selectByConditions(searchFrom);
     }
+
+    /**
+     * Studentsテーブルにデータを登録します
+     *
+     * @param studentsEntity 登録情報
+     */
+    public void insert(StudentsEntity studentsEntity) {
+        this.studentsMapper.insert(studentsEntity);
+    }
 }

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common :: head('登録')}">
+    <meta charset="UTF-8">
+    <title>登録</title>
+</head>
+<body>
+<header th:replace="~{common :: header('登録')}"></header>
+<main>
+    <p th:if="${hasError}" class="error">登録に失敗しました。</p>
+    <form th:action="@{register}" method="post" th:object="${registerForm}">
+        <table>
+            <tr>
+                <th>氏名</th>
+                <td><input type="text" th:field="*{name}" th:errorClass="error-item">
+                    <span th:errors="*{name}" class="error"></span>
+                </td>
+            </tr>
+            <tr>
+                <th>出身地</th>
+                <td>
+                    <select th:field="*{prefecture}" th:errorClass="error-item">
+                        <option value="">-----</option>
+                        <option th:each="entry : ${prefectureMap}"
+                                th:value="${entry.value}"
+                                th:text="${entry.value.description}">
+                        </option>
+                    </select>
+                    <span th:errors="*{prefecture}" class="error"></span>
+                </td>
+            </tr>
+            <tr>
+                <th>性別</th>
+                <td>
+                    <label th:each="resultType : ${genderMap}">
+                        <input type="radio" th:field="*{gender}" th:value="${resultType.value}"
+                               th:text="${resultType.value.description}">
+                    </label>
+                    <span th:errors="*{gender}" class="error"></span>
+                </td>
+            </tr>
+        </table>
+        <button>登録</button>
+    </form>
+</main>
+<footer th:replace="~{common :: footer}"></footer>
+</body>
+</html>

@@ -12,6 +12,6 @@ import lombok.Data;
 public class StudentsEntity {
     private int id;
     private String name;
-    private String prefecture;
+    private int prefecture;
     private int gender;
 }
