@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -143,5 +144,31 @@ public class HomeController {
     @GetMapping("/complete-register")
     public String showCompleteRegister() {
         return "complete-register";
+    }
+
+    /**
+     * 詳細画面を表示します
+     *
+     * @param id    id
+     * @param model Model
+     * @return 詳細画面
+     */
+    @GetMapping("/detail/{id}")
+    public String showDetail(@PathVariable int id, Model model) {
+        StudentsEntity entity = this.service.findStudentById(id);
+        if (entity == null) {
+            model.addAttribute("hasNoStudent", true);
+            return "detail";
+        }
+
+        //表示用のDisneyクラスに詰め替え
+        StudentsDisplay display = new StudentsDisplay();
+        display.setId(entity.getId());
+        display.setName(entity.getName());
+        display.setPrefecture(this.prefectureMap.get(entity.getPrefecture()).getDescription());
+        display.setGender(this.genderMap.get(entity.getGender()).getDescription());
+        model.addAttribute("display", display);
+
+        return "detail";
     }
 }

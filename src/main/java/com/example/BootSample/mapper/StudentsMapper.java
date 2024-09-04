@@ -20,6 +20,14 @@ public interface StudentsMapper {
     List<StudentsEntity> selectByConditions(SearchFrom searchFrom);
 
     /**
+     * IDでStudentsテーブルから検索します
+     *
+     * @param id id
+     * @return 検索結果
+     */
+    StudentsEntity selectById(int id);
+
+    /**
      * Studentsテーブルにデータを登録します
      *
      * @param studentsEntity 登録情報

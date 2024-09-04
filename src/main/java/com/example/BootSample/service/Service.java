@@ -28,6 +28,16 @@ public class Service {
     }
 
     /**
+     * IDでStudentsテーブルから検索します
+     *
+     * @param id id
+     * @return 検索結果
+     */
+    public StudentsEntity findStudentById(int id) {
+        return this.studentsMapper.selectById(id);
+    }
+
+    /**
      * Studentsテーブルにデータを登録します
      *
      * @param studentsEntity 登録情報
@@ -35,4 +45,6 @@ public class Service {
     public void insert(StudentsEntity studentsEntity) {
         this.studentsMapper.insert(studentsEntity);
     }
+
+
 }

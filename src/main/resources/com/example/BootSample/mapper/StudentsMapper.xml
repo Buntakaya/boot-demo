@@ -22,6 +22,11 @@
         </where>
         ORDER BY ID;
     </select>
+    <select id="selectById"
+            resultType="com.example.BootSample.entity.StudentsEntity">
+        SELECT ID, NAME, PREFECTURE, GENDER
+        FROM STUDENTS WHERE ID = #{id};
+    </select>
     <!--登録-->
     <insert id="insert" parameterType="com.example.BootSample.entity.StudentsEntity">
         INSERT INTO STUDENTS (NAME, PREFECTURE, GENDER)
