@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{common :: head('登録完了')}">
+<head th:replace="~{common :: head('変更完了')}">
     <meta charset="UTF-8">
     <title>トップ</title>
 </head>
 <body>
-<header th:replace="~{common :: header('登録完了')}"></header>
+<header th:replace="~{common :: header('変更完了')}"></header>
 <main>
-    <p>以下で登録完了しました！</p>
+    <p>以下で変更完了しました！</p>
     <table th:object="${display}">
+        <tr>
+            <th>氏名</th>
+            <td th:text="*{id}"></td>
+        </tr>
         <tr>
             <th>氏名</th>
             <td th:text="*{name}"></td>

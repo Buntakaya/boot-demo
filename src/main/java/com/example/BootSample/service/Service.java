@@ -46,5 +46,14 @@ public class Service {
         this.studentsMapper.insert(studentsEntity);
     }
 
+    /**
+     * Studentsテーブルのデータを変更します
+     *
+     * @param studentsEntity 変更情報
+     */
+    public void update(StudentsEntity studentsEntity) {
+        this.studentsMapper.update(studentsEntity);
+    }
+
 
 }

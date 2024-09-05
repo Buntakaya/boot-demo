@@ -33,4 +33,11 @@ public interface StudentsMapper {
      * @param studentsEntity 登録情報
      */
     void insert(StudentsEntity studentsEntity);
+
+    /**
+     * Studentsテーブルのデータを変更します
+     *
+     * @param studentsEntity 変更情報
+     */
+    void update(StudentsEntity studentsEntity);
 }

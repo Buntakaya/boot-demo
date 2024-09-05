@@ -39,6 +39,7 @@
             <td th:text="*{id}">
             <td th:text="*{name}">
             <td><a th:href="@{detail/} + *{id}">詳細</a></td>
+            <td><a th:href="@{*{id} + '/update'}">変更</a></td>
         </tr>
         </tbody>
     </table>

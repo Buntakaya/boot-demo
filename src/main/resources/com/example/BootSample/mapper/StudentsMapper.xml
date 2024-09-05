@@ -32,4 +32,9 @@
         INSERT INTO STUDENTS (NAME, PREFECTURE, GENDER)
         VALUES (#{name},#{prefecture},#{gender});
     </insert>
+    <!--更新-->
+    <update id="update" parameterType="com.example.BootSample.entity.StudentsEntity">
+        UPDATE STUDENTS SET NAME = #{name}, PREFECTURE = #{prefecture}, GENDER = #{gender}
+        WHERE ID = #{id};
+    </update>
 </mapper>

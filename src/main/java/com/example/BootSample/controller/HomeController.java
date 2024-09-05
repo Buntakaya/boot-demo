@@ -6,6 +6,7 @@ import com.example.BootSample.display.StudentsDisplay;
 import com.example.BootSample.entity.StudentsEntity;
 import com.example.BootSample.form.RegisterForm;
 import com.example.BootSample.form.SearchFrom;
+import com.example.BootSample.form.UpdateForm;
 import com.example.BootSample.service.Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -72,12 +73,7 @@ public class HomeController {
         List<StudentsDisplay> searchList = new ArrayList<>();
         //表示用のDisneyクラスに詰め替え
         for (StudentsEntity entity : service.findStudent(searchFrom)) {
-            StudentsDisplay display = new StudentsDisplay();
-            display.setId(entity.getId());
-            display.setName(entity.getName());
-            display.setPrefecture(this.prefectureMap.get(entity.getPrefecture()).getDescription());
-            display.setGender(this.genderMap.get(entity.getGender()).getDescription());
-            searchList.add(display);
+            searchList.add(convertToDisplay(entity));
         }
 
         model.addAttribute("searchList", searchList);
@@ -124,14 +120,8 @@ public class HomeController {
             return "register";
         }
 
-        //表示用のDisneyクラスに詰め替え
-        StudentsDisplay display = new StudentsDisplay();
-        display.setName(studentsEntity.getName());
-        display.setPrefecture(this.prefectureMap.get(studentsEntity.getPrefecture()).getDescription());
-        display.setGender(this.genderMap.get(studentsEntity.getGender()).getDescription());
-
         //フラッシュ属性に追加
-        redirectAttributes.addFlashAttribute("display", display);
+        redirectAttributes.addFlashAttribute("display", convertToDisplay(studentsEntity));
 
         return "redirect:complete-register";
     }
@@ -161,14 +151,95 @@ public class HomeController {
             return "detail";
         }
 
+        //表示用のDisneyクラスに詰め替えて、Modelに格納
+        model.addAttribute("display", convertToDisplay(entity));
+
+        return "detail";
+    }
+
+    /**
+     * 変更画面を表示します
+     *
+     * @param id         id
+     * @param updateForm 変更フォーム
+     * @param model      Model
+     * @return 変更画面
+     */
+    @GetMapping("/{id}/update")
+    public String showUpdate(@PathVariable int id, UpdateForm updateForm, Model model) {
+        StudentsEntity entity = this.service.findStudentById(id);
+        if (entity == null) {
+            model.addAttribute("hasNoStudent", true);
+            return "update";
+        }
+
         //表示用のDisneyクラスに詰め替え
+        updateForm.setId(entity.getId());
+        updateForm.setName(entity.getName());
+        updateForm.setPrefecture(this.prefectureMap.get(entity.getPrefecture()));
+        updateForm.setGender(this.genderMap.get(entity.getGender()));
+
+        return "update";
+    }
+
+    /**
+     * 登録完了へリダイレクトします
+     *
+     * @param updateForm         変更フォーム
+     * @param result             バリデーションエラー
+     * @param redirectAttributes リダイレクト属性
+     * @param model              Model
+     * @return 変更完了へリダイレクト
+     */
+    @PostMapping("/{id}/update")
+    public String update(@Validated UpdateForm updateForm, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            return "update";
+        }
+        //Entityクラスに詰め替え
+        StudentsEntity entity = new StudentsEntity();
+        entity.setId(updateForm.getId());
+        entity.setName(updateForm.getName());
+        entity.setPrefecture(updateForm.getPrefecture().getCode());
+        entity.setGender(updateForm.getGender().getCode());
+
+        //更新処理
+        try {
+            this.service.update(entity);
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("hasError", true);
+            return "update";
+        }
+
+        //Displayクラスに詰め替えて、フラッシュ属性に追加
+        redirectAttributes.addFlashAttribute("display", convertToDisplay(entity));
+        return "redirect:complete-update";
+    }
+
+    /**
+     * 変更完了画面を表示します
+     *
+     * @return 変更完了画面
+     */
+    @GetMapping("/{id}/complete-update")
+    public String showCompleteUpdate() {
+        return "complete-update";
+    }
+
+    /**
+     * EntityクラスをDisneyクラスに詰め替えます
+     *
+     * @param entity Entityクラス
+     * @return Displayクラス
+     */
+    private StudentsDisplay convertToDisplay(StudentsEntity entity) {
         StudentsDisplay display = new StudentsDisplay();
         display.setId(entity.getId());
         display.setName(entity.getName());
         display.setPrefecture(this.prefectureMap.get(entity.getPrefecture()).getDescription());
         display.setGender(this.genderMap.get(entity.getGender()).getDescription());
-        model.addAttribute("display", display);
-
-        return "detail";
+        return display;
     }
+
 }
