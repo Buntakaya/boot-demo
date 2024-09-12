@@ -20,7 +20,9 @@
                 <td><input type="password" name="password"></td>
             </tr>
         </table>
+        <!--認証メッセージが存在するかどうか-->
         <div th:if="${session[SPRING_SECURITY_LAST_EXCEPTION]}!=NULL">
+            <!--認証メッセージの表示をします-->
             <p th:text="${session[SPRING_SECURITY_LAST_EXCEPTION].message}" class="error"></p>
         </div>
         <button>ログイン</button>

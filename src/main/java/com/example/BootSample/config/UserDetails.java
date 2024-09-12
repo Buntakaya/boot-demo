@@ -7,6 +7,9 @@ import org.springframework.security.core.GrantedAuthority;
 import java.io.Serial;
 import java.util.Collection;
 
+/**
+ * Spring Securityのユーザーの詳細情報を扱うクラス
+ */
 public class UserDetails implements org.springframework.security.core.userdetails.UserDetails {
     @Serial
     private static final long serialVersionUID = 1L;

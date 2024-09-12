@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+//User情報が保持されているオブジェクトをSessionに格納します
 @SessionAttributes(types = {UserInfoEntity.class})
 @RequiredArgsConstructor
 public class HomeController {
@@ -52,11 +53,21 @@ public class HomeController {
         return this.genderMap;
     }
 
+    /**
+     * ログイン画面を表示します
+     *
+     * @return ログイン画面
+     */
     @GetMapping("/")
     public String showIndex() {
         return "login";
     }
 
+    /**
+     * ログイン画面を表示します
+     *
+     * @return ログイン画面
+     */
     @GetMapping("/login")
     public String showLogin() {
         return "login";
@@ -66,11 +77,16 @@ public class HomeController {
      * トップ画面を表示します
      * 戻り値をString型に、画面遷移するHTMLの拡張子抜きのファイル名を指定します
      *
+     * @param model     Model
+     * @param principal ログインユーザ情報を保持する
      * @return トップ画面
      */
     @GetMapping("/top")
+    //Principalで認証済みユーザーの取得をします
     public String showTop(Model model, Principal principal) {
+        //Authenticationにキャストして、ユーザーの詳細を取得します
         Authentication authentication = (Authentication) principal;
+        //UserDetailsオブジェクトを取得します
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         model.addAttribute("userInfo", userDetails);
         return "top";
