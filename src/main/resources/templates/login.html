@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common :: head('ログイン')}">
+    <meta charset="UTF-8">
+    <title>ログイン</title>
+</head>
+<body>
+<header>
+    <h1>ログイン</h1>
+</header>
+<main>
+    <form th:action="@{/login}" method="post">
+        <table>
+            <tr>
+                <th>ユーザーID</th>
+                <td><input type="text" name="id"></td>
+            </tr>
+            <tr>
+                <th>パスワード</th>
+                <td><input type="password" name="password"></td>
+            </tr>
+        </table>
+        <div th:if="${session[SPRING_SECURITY_LAST_EXCEPTION]}!=NULL">
+            <p th:text="${session[SPRING_SECURITY_LAST_EXCEPTION].message}" class="error"></p>
+        </div>
+        <button>ログイン</button>
+    </form>
+</main>
+<footer></footer>
+</body>
+</html>

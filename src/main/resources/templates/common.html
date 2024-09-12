@@ -3,17 +3,23 @@
 <head th:fragment="head(title)">
     <meta charset="UTF-8">
     <title th:text="${title}">タイトル</title>
-    <link rel="stylesheet" th:href="@{/common.css}">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
 </head>
 <body>
 <header th:fragment="header(h1title)">
     <h1 th:text="${h1title}"></h1>
+    <div id="header-user-details">
+        <p>ユーザ名：<span th:text="${userInfo.displayUserName}"></span></p>
+        <form th:action="@{/logout}" method="post">
+            <button>ログアウト</button>
+        </form>
+    </div>
     <hr>
 </header>
 <main></main>
 <footer th:fragment="footer">
     <hr>
-    <a th:href="@{/}">トップへ</a>
+    <a th:href="@{/top}">トップへ</a>
 </footer>
 </body>
 </html>

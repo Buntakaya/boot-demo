@@ -9,3 +9,7 @@ footer{
 .error{
     color:red;
 }
+
+#header-user-details{
+    text-align: right;
+}

@@ -2,28 +2,30 @@ package com.example.BootSample.controller;
 
 import com.example.BootSample.GenderEnum;
 import com.example.BootSample.PrefectureEnum;
+import com.example.BootSample.config.UserDetails;
 import com.example.BootSample.display.StudentsDisplay;
 import com.example.BootSample.entity.StudentsEntity;
+import com.example.BootSample.entity.UserInfoEntity;
 import com.example.BootSample.form.RegisterForm;
 import com.example.BootSample.form.SearchFrom;
 import com.example.BootSample.form.UpdateForm;
 import com.example.BootSample.service.Service;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @Controller
+@SessionAttributes(types = {UserInfoEntity.class})
 @RequiredArgsConstructor
 public class HomeController {
     private final Service service;
@@ -50,14 +52,27 @@ public class HomeController {
         return this.genderMap;
     }
 
+    @GetMapping("/")
+    public String showIndex() {
+        return "login";
+    }
+
+    @GetMapping("/login")
+    public String showLogin() {
+        return "login";
+    }
+
     /**
      * トップ画面を表示します
      * 戻り値をString型に、画面遷移するHTMLの拡張子抜きのファイル名を指定します
      *
      * @return トップ画面
      */
-    @GetMapping("/")
-    public String showTop() {
+    @GetMapping("/top")
+    public String showTop(Model model, Principal principal) {
+        Authentication authentication = (Authentication) principal;
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        model.addAttribute("userInfo", userDetails);
         return "top";
     }
 
